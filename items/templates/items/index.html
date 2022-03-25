@@ -28,7 +28,7 @@
                 </li>
                 <li class="menu__item">
                     <i class='bx bx-bookmark-alt-plus' ></i>
-                    <a href="/laptop">Laptop</a>
+                    <a href="{% url 'items:listLaptop' %}">Laptop</a>
                 </li>
                 <li class="menu__item">
                     <i class='bx bx-book-heart' ></i>
@@ -48,6 +48,14 @@
     {% block editBook %}
     {% endblock %}
     {% block addAuthor %}
+    {% endblock %}
+    {% block addBrand %}
+    {% endblock %}
+    {% block addLaptop %}
+    {% endblock %}
+    {% block editLaptop %}
+    {% endblock %}
+    {% block listLaptop %}
     {% endblock %}
     </section>
     <script src="https://unpkg.com/boxicons@2.1.1/dist/boxicons.js"></script>

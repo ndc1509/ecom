@@ -1,0 +1,28 @@
+{% extends 'items/index.html' %}
+{% block addBrand %}
+    <div class="item">
+        {% if success == 1 %}
+            <script>
+                alert('Thêm thành công!')
+            </script>
+        {% endif %}
+        <form action="{% url 'items:saveBrand' %}" method="post">
+            {% csrf_token %}
+            <div class="title">
+                <p>Thêm hãng</p>
+            </div>
+            <div class="item-book col-auto">
+                <label for="name">Tên hãng: </label>
+                <input type="text" class="form-control" name="name" id="">
+            </div>
+            <div class="item-book col-auto">
+                <label for="origin">Nguồn gốc: </label>
+                <input type="text" class="form-control" name="origin" id="">
+            </div>
+            <div class=" button-div d-flex justify-content-around col-auto">
+                <button class=" button btn btn-primary" type="submit">Submit</button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
