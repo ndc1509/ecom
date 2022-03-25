@@ -1,0 +1,57 @@
+{% extends 'items/index.html' %}
+{% block home %}
+    <div class="item">
+
+        <form action="/save-item/" method="post">
+            {% csrf_token %}
+            <div class="title">
+                <p>Đăng ký Sách Bán</p>
+            </div>
+            <div class="item-book col-auto">
+                <label for="name_book">Name Book: </label>
+                <input type="text" class="form-control" name="name_book" id="">
+            </div>
+            <div class="item-book col-auto">
+                <label for="type_book">Type Book: </label>
+                <select class="form-select" aria-label="Default select example" name="type_book">
+                    <option value="H">History</option>
+                    <option value="C">Classic</option>
+                    <option value="Ho">Horror</option>
+                    <option value="M">Memoir</option>
+                    <option value="R">Romance</option>
+                </select>
+            </div>
+            <div class="item-book col-auto">
+                <label for="author">Author: </label>
+                <input type="text" class="form-control" name="author" id="">
+            </div>
+            <div class="item-book col-auto">
+                <label for="price">Price: </label>
+                <input type="text" class="form-control" name="price" id="">
+            </div>
+            <div class="item-book col-auto ">
+                <label for="description">Description: </label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="description"></textarea>
+            </div>
+            <div class="item-book col-auto ">
+                <label for="">Sell:</label>
+                <div class="form-check  justify-content-around" name="status">
+                    <input class="form-check-input" type="radio" name="status" value="True">
+                    <label class="form-check-label" for="status">
+                        Sell Book.
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="status" value="False">
+                    <label class="form-check-label" for="status">
+                        Don't Sell Book.
+                    </label>
+                </div>
+            </div>
+            <div class=" button-div d-flex justify-content-around col-auto">
+                <button class=" button btn btn-primary" type="submit">Submit</button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet"  href="{%  static  'items/style.css'%}">
+    <title>Book Store</title>
+</head>
+<body>
+    <header class="header">
+            <div class="logo">
+                <span><h3><a href="{% url 'items:index' %}">Django Shop</a></h3></span>
+            </div>
+            <ul class="nav">
+                 <li><h4>DoashBoard</h4></li>
+                <li class="menu__item">
+                    <i class='bx bx-book-open'></i>
+                    <a href="{% url 'items:index' %}">Trang chủ</a>
+                </li>
+                <li class="menu__item">
+                    <i class='bx bx-bookmark-minus'></i>
+                    <a href="{% url 'items:listBook' %}">Sách</a>
+                </li>
+                <li class="menu__item">
+                    <i class='bx bx-bookmark-alt-plus' ></i>
+                    <a href="/laptop">Laptop</a>
+                </li>
+                <li class="menu__item">
+                    <i class='bx bx-book-heart' ></i>
+                    <a href="/smartphone">Điện thoại</a>
+                </li>
+                <li class="menu__item">
+                    <i class='bx bx-log-out'></i>
+                    <a href="">Đăng xuất</a>
+                </li>
+            </ul>
+    </header>
+    <section class="section">
+    {% block addBook %}
+    {% endblock %}
+    {% block listBook %}
+    {% endblock %}
+    {% block editBook %}
+    {% endblock %}
+    {% block addAuthor %}
+    {% endblock %}
+    </section>
+    <script src="https://unpkg.com/boxicons@2.1.1/dist/boxicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
