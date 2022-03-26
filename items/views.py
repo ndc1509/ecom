@@ -204,7 +204,7 @@ def saveLaptop(req):
         storage = req.POST['storage']
         battery = req.POST['battery']
         os = req.POST['os']
-        new_lap = Book.objects.create(
+        new_lap = Laptop.objects.create(
             name=name,
             brand=LaptopBrand.objects.get(pk=brand_id),
             status=status,
