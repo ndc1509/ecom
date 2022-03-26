@@ -1,12 +1,12 @@
 {% extends 'items/index.html' %}
-{% block addBook %}
+{% block addLaptop %}
     <div class="item">
         {% if success == 1 %}
             <script>
                 alert('Thêm thành công!')
             </script>
         {% endif %}
-        <form action="{% url 'items:saveBook' %}" method="post">
+        <form action="{% url 'items:saveLaptop' %}" method="post">
             {% csrf_token %}
             <div class="title">
                 <p>Thêm laptop</p>

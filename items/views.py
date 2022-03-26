@@ -159,7 +159,7 @@ def listLaptop(req):
 
 
 def addLaptopBrand(req):
-    return render(req, 'items/laptop/addLaptop.html')
+    return render(req, 'items/laptop/addBrand.html')
 
 
 def addLaptopBrandSuccess(req, success):
