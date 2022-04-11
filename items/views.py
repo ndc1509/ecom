@@ -1,3 +1,4 @@
+from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -76,6 +77,16 @@ def saveBook(req):
             publication_date=pub_date
         )
         new_book.save()
+        fs = FileSystemStorage()
+        if req.FILES.getlist('image'):
+            for file in req.FILES.getlist('image'):
+                f = fs.save(file.name, file)
+                f_url = fs.url(f)
+                image = ProductImage.objects.create(
+                    image=f_url,
+                    product=new_book
+                )
+                image.save()
         return redirect(reverse('items:addBookSuccess', args=(1,)))
     else:
         return render(req, 'items/error.html')
@@ -143,9 +154,10 @@ def editBookSuccess(req, edited_id, success):
     })
 
 
-#
-# def notFound(req):
-#     return render(req, 'items/error.html')
+# 404
+def notFound(req):
+    return render(req, 'items/error.html')
+
 
 # Laptop functions
 def listLaptop(req):

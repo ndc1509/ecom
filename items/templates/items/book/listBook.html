@@ -3,6 +3,7 @@
     <div class="content container">
         {% load static %}
         {% load format %}
+
         <div class="container">
             <button class="btn btn-primary"><a href="{% url 'items:addBook' %}">Thêm sách</a></button>
         </div>
@@ -11,6 +12,7 @@
             <table class="table">
                 <thead>
                 <tr>
+                    <th>Ảnh</th>
                     <th>Tên sản phẩm</th>
                     <th>Giá</th>
                     <th>Trạng thái</th>
@@ -23,6 +25,7 @@
                 <tbody>
                 {% for book in Books %}
                     <tr>
+                        <td><img src="{{ book.productimage_set.first.image }}" width="100px" height="100px"/></td>
                         <td>{{ book.name }}</td>
                         <td>{{ book.price }}</td>
                         {% if book.status == 'C' %}

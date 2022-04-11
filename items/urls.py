@@ -26,9 +26,9 @@ urlpatterns = [
     path('laptop/add/<int:success>', views.addLaptopSuccess, name='addLaptopSuccess'),
     path('save-laptop/', views.saveLaptop, name='saveLaptop'),
     path('laptop/edit/<int:id>/<int:success>', views.editLaptopSuccess, name='editLaptopSuccess'),
-    path('update-laptop', views.updateLaptop, name='updateLaptop')
+    path('update-laptop', views.updateLaptop, name='updateLaptop'),
 
-    # path('error/', views.notFound, name='notFound'),
+    path('error/', views.notFound, name='notFound'),
     # path('save-item/', views.saveData, name='saveData'),
     # path('show/', views.show, name =  'show')
 ]
