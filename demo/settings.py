@@ -122,3 +122,6 @@ MEDIA_URL = '/items/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'items/media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# User
+AUTH_USER_MODEL = 'items.User'
