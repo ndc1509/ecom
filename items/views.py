@@ -1,21 +1,20 @@
+import requests
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
-import requests
-from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib.sessions.models import Session
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ShipmentForm
 from .models import *
 
 
@@ -446,7 +445,7 @@ def checkout(req, total=0, quantity=0, items=None):
     try:
         user = req.user
         cart = _get_cart(req)
-        items = ProductItem.objects.filter(cart=cart, user=user, is_active=True)
+        items = ProductItem.objects.filter(cart=cart, is_active=True)
         for item in items:
             total += item.product.price * item.quantity
             quantity += item.quantity
@@ -458,7 +457,7 @@ def checkout(req, total=0, quantity=0, items=None):
         'total': total,
         'quantity': quantity,
         'cart_items': items,
-        'tax': tax if "tax" in locals() else "",
+        'tax': tax,
         'grand_total': grand_total,
     })
 
@@ -644,3 +643,142 @@ def reset_password(req):
         else:
             messages.error(req, message="Password do not match!")
     return render(req, 'accounts/reset_password.html')
+
+
+# ORDER
+
+def sendOrderEmail(request, order):
+    mail_subject = 'Thank you for your order!'
+    message = render_to_string('orders/order_recieved_email.html', {
+        'user': request.user,
+        'order': order
+    })
+    to_email = request.user.email
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
+    send_email.send()
+
+
+def payments(request):
+    try:
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == 'POST':
+            user = request.user
+            order_id = request.POST['orderID']
+            trans_id = request.POST['transID']
+            payment_method = request.POST['payment_method']
+            status = request.POST['status']
+
+            # Lấy bản ghi order
+            order = Order.objects.get(user=user, order_id=order_id)
+            cart = Cart.objects.get(id=order.cart.id)
+
+            # Tạo 1 bản ghi payment
+            payment = Payment(
+                user=request.user,
+                payment_id=trans_id,
+                payment_method=payment_method,
+                amount=order.order_total,
+                status=status,
+            )
+            payment.save()
+
+            order.payment = payment
+            order.save()
+
+            # Chuyển hết cart_item thành order_product
+            items = ProductItem.objects.filter(cart=cart, is_active=True)
+            for item in items:
+                # Reduce the quantity of the sold products
+                product = Product.objects.get(id=item.product_id)
+                product.stock -= item.quantity
+                product.save()
+
+            # Xóa hết cart_item
+            Cart.objects.filter(id=cart.id).update(is_checked_out=True)
+
+            # Gửi thư cảm ơn
+            # sendOrderEmail(request=request, order=order)
+
+            # Phản hồi lại ajax
+            data = {
+                'order_id': order.order_id,
+                'trans_id': payment.payment_id,
+            }
+        return JsonResponse({"data": data}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": e}, status=400)
+
+
+def place_order(request, total=0, quantity=0):
+    user = request.user
+    cart = _get_cart(request)
+    items = ProductItem.objects.filter(cart=cart, is_active=True)
+    item_count = items.count()
+    if item_count <= 0:
+        redirect('items:store')
+
+    for item in items:
+        total += (item.product.price * item.quantity)
+        quantity += item.quantity
+    tax = total / 10
+    grand_total = total + tax
+
+    if request.method == 'POST':
+        form = ShipmentForm(request.POST)
+        if form.is_valid():
+            data = Order()
+            data.user = user
+            data.cart = cart
+            address_line_1 = form.cleaned_data['address_line_1']
+            address_line_2 = form.cleaned_data['address_line_2']
+            city = form.cleaned_data['city']
+            country = form.cleaned_data['country']
+            shipment = Shipment.objects.create(address_line_1=address_line_1, address_line_2=address_line_2, city=city,
+                                               country=country)
+            data.shipment_id = shipment.id
+            data.order_total = grand_total
+            data.order_note = request.POST['order_note']
+            data.ip = request.META.get('REMOTE_ADDR')
+            data.save()
+            order_id = datetime.datetime.now().strftime("%d%m%Y" + str(data.id))
+            data.order_id = order_id
+            data.save()
+
+            order = Order.objects.get(user=user, order_id=order_id)
+            return render(request, 'orders/payments.html', {
+                'order': order,
+                'cart_items': items,
+                'total': total,
+                'tax': tax,
+                'grand_total': grand_total
+            })
+    else:
+        return redirect('items:checkout')
+
+
+def order_complete(request):
+    order_id = request.GET.get('order_id')
+    trans_id = request.GET.get('payment_id')
+    shipment_id = request.GET.get('shipment_id')
+
+    try:
+        order = Order.objects.get(order_id=order_id)
+        ordered_items = order.cart.productitem_set.all()
+
+        subtotal = 0
+        for item in ordered_items:
+            subtotal += item.product.price * item.quantity
+
+        payment = Payment.objects.get(payment_id=trans_id)
+        shipment = Shipment.objects.get(shipment_id=shipment_id)
+
+        return render(request, 'orders/order_complete.html', {
+            'order': order,
+            'ordered_products': ordered_items,
+            'order_id': order.order_id,
+            'trans_id': payment.payment_id,
+            'payment': payment,
+            'subtotal': subtotal,
+            'shipment': shipment
+        })
+    except Exception:
+        return redirect('home')

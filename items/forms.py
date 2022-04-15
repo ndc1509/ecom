@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Account
+from .models import Account, Shipment
 
 
 class RegistrationForm(forms.ModelForm):
@@ -37,3 +37,15 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError(
                 'Password does not match!'
             )
+
+
+# class OrderForm(forms.ModelForm):
+#     class Meta:
+#         model = Order
+#         fields = ['order_note']
+
+
+class ShipmentForm(forms.ModelForm):
+    class Meta:
+        model = Shipment
+        fields = ['address_line_1', 'address_line_2', 'city', 'country']

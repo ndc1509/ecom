@@ -1,6 +1,3 @@
-from items.models import ProductItem
-
-
 # def counter(request):
 #     if 'admin' in request.path:
 #         return {}

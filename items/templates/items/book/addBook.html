@@ -44,7 +44,8 @@
                 </select>
             </div>
             <div>
-                <button class="btn btn-primary ms-2"><a href="{% url 'items:addAuthor' %}" target="_blank">Thêm tác giả</a></button>
+                <button class="btn btn-primary ms-2"><a href="{% url 'items:addAuthor' %}" target="_blank">Thêm tác
+                    giả</a></button>
             </div>
             <div class="item-book col-auto ">
                 <label for="slug">Slug: </label>
@@ -64,7 +65,7 @@
             </div>
             <div>
                 <label for="image">Ảnh</label>
-                <input id="fileInp" type="file" name="image" accept="image/*" multiple />
+                <input id="fileInp" type="file" name="image" accept="image/*" multiple/>
                 <div id="frame">
 
                 </div>
@@ -75,17 +76,17 @@
         </form>
     </div>
     <script>
-    $(document).ready(function (){
-        $('#fileInp').change(function (){
-            $('#frame').html('');
-            for(let i=0; i<$(this)[0].files.length; i++){
-                if(this.files[i]){
-                    $('#frame').append(
-                        '<img src="' + URL.createObjectURL(this.files[i]) + '" height="200px" width="200px" />'
-                    )
+        $(document).ready(function () {
+            $('#fileInp').change(function () {
+                $('#frame').html('');
+                for (let i = 0; i < $(this)[0].files.length; i++) {
+                    if (this.files[i]) {
+                        $('#frame').append(
+                            '<img src="' + URL.createObjectURL(this.files[i]) + '" height="200px" width="200px" />'
+                        )
+                    }
                 }
-            }
+            })
         })
-    })
     </script>
 {% endblock %}

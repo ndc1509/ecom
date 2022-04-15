@@ -8,67 +8,72 @@
         {% endif %}
         {% if Book %}
             <form action="{% url 'items:updateBook' %}" method="post">
-            {% csrf_token %}
-            <div class="title">
-                <p>Sửa sách</p>
-                <input type="number" class="form-control" name="book_id" id="" value="{{ Book.id }}" hidden>
-            </div>
-            <div class="item-book col-auto">
-                <label for="name">Tên sách: </label>
-                <input type="text" class="form-control" name="name" id="" value="{{ Book.name }}">
-            </div>
-            <div class="item-book col-auto">
-                <label for="category_id">Danh mục: </label>
-                <select class="form-select" aria-label="Default select example" name="category_id">
-                    {% for c in Categories %}
-                        <option value="{{ c.id }}" {% if c.id == Book.category.id%}selected{% endif %}>{{ c.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="item-book col-auto">
-                <label for="price">Giá: </label>
-                <input type="text" class="form-control" name="price" id="" value="{{ Book.price }}">
-            </div>
-            <div class="item-book col-auto">
-                <label for="status">Trạng thái: </label>
-                <select class="form-select" aria-label="Default select example" name="status">
-                    <option value="C" {% if Book.status == 'C' %}selected{% endif %}>Còn hàng</option>
-                    <option value="H" {% if Book.status == 'H' %}selected{% endif %}>Hết hàng</option>
-                    <option value="CH" {% if Book.status == 'CH' %}selected{% endif %}>Chờ hàng</option>
-                </select>
-            </div>
-            <div class="item-book col-auto">
-                <label for="author">Tác giả: </label>
-                <select class="form-select" aria-label="Default select example" name="author">
-                    {% for a in Authors %}
-                        <option value="{{ a.id }}" {% if a.id == Book.author.id %}selected{% endif %}>{{ a.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <button class="btn btn-primary ms-2"><a href="{% url 'items:addAuthor' %}" target="_blank">Thêm tác giả</a></button>
-            </div>
-            <div class="item-book col-auto ">
-                <label for="slug">Slug: </label>
-                <input type="text" class="form-control" name="slug" value="{{ Book.slug }}">
-            </div>
-            <div class="item-book col-auto ">
-                <label for="publisher">Nhà xuất bản: </label>
-                <input type="text" class="form-control" name="publisher" value="{{ Book.publisher }}">
-            </div>
-            <div class="item-book col-auto">
-                <label for="pub_date">Năm xuất bản</label>
-                <input type="number" class="form-control" name="pub_date" min="1900" max="2022" value="{{ Book.publication_date }}">
-            </div>
-            <div class="item-book col-auto ">
-                <label for="description">Mô tả: </label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" name="description"> {{ Book.description }}</textarea>
-            </div>
+                {% csrf_token %}
+                <div class="title">
+                    <p>Sửa sách</p>
+                    <input type="number" class="form-control" name="book_id" id="" value="{{ Book.id }}" hidden>
+                </div>
+                <div class="item-book col-auto">
+                    <label for="name">Tên sách: </label>
+                    <input type="text" class="form-control" name="name" id="" value="{{ Book.name }}">
+                </div>
+                <div class="item-book col-auto">
+                    <label for="category_id">Danh mục: </label>
+                    <select class="form-select" aria-label="Default select example" name="category_id">
+                        {% for c in Categories %}
+                            <option value="{{ c.id }}"
+                                    {% if c.id == Book.category.id %}selected{% endif %}>{{ c.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="item-book col-auto">
+                    <label for="price">Giá: </label>
+                    <input type="text" class="form-control" name="price" id="" value="{{ Book.price }}">
+                </div>
+                <div class="item-book col-auto">
+                    <label for="status">Trạng thái: </label>
+                    <select class="form-select" aria-label="Default select example" name="status">
+                        <option value="C" {% if Book.status == 'C' %}selected{% endif %}>Còn hàng</option>
+                        <option value="H" {% if Book.status == 'H' %}selected{% endif %}>Hết hàng</option>
+                        <option value="CH" {% if Book.status == 'CH' %}selected{% endif %}>Chờ hàng</option>
+                    </select>
+                </div>
+                <div class="item-book col-auto">
+                    <label for="author">Tác giả: </label>
+                    <select class="form-select" aria-label="Default select example" name="author">
+                        {% for a in Authors %}
+                            <option value="{{ a.id }}"
+                                    {% if a.id == Book.author.id %}selected{% endif %}>{{ a.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <button class="btn btn-primary ms-2"><a href="{% url 'items:addAuthor' %}" target="_blank">Thêm tác
+                        giả</a></button>
+                </div>
+                <div class="item-book col-auto ">
+                    <label for="slug">Slug: </label>
+                    <input type="text" class="form-control" name="slug" value="{{ Book.slug }}">
+                </div>
+                <div class="item-book col-auto ">
+                    <label for="publisher">Nhà xuất bản: </label>
+                    <input type="text" class="form-control" name="publisher" value="{{ Book.publisher }}">
+                </div>
+                <div class="item-book col-auto">
+                    <label for="pub_date">Năm xuất bản</label>
+                    <input type="number" class="form-control" name="pub_date" min="1900" max="2022"
+                           value="{{ Book.publication_date }}">
+                </div>
+                <div class="item-book col-auto ">
+                    <label for="description">Mô tả: </label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                              name="description"> {{ Book.description }}</textarea>
+                </div>
 
-            <div class=" button-div d-flex justify-content-around col-auto">
-                <button class=" button btn btn-primary" type="submit">Submit</button>
-            </div>
-        </form>
+                <div class=" button-div d-flex justify-content-around col-auto">
+                    <button class=" button btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
         {% endif %}
     </div>
 {% endblock %}

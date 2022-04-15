@@ -38,8 +38,11 @@
                         <td>{{ book.publisher }}</td>
                         <td>{{ book.author.name }}</td>
                         <td>{{ book.category.name }}</td>
-                        <td><a class="btn btn-success edit-btn" id="{{ book.id }}" href="{% url 'items:editBook' book.id %}">Sửa</a>
-                        <a class="btn btn-danger del-btn" id="{{ book.id }}" onclick="confirm_delete('{{ book.name }}')" href="{% url 'items:deleteBook' book.id %}">Xóa</a></td>
+                        <td><a class="btn btn-success edit-btn" id="{{ book.id }}"
+                               href="{% url 'items:editBook' book.id %}">Sửa</a>
+                            <a class="btn btn-danger del-btn" id="{{ book.id }}"
+                               onclick="confirm_delete('{{ book.name }}')" href="{% url 'items:deleteBook' book.id %}">Xóa</a>
+                        </td>
                     </tr>
                 {% endfor %}
 
@@ -49,7 +52,7 @@
     </div>
     <script>
         function confirm_delete(book_name) {
-            if(!confirm("Xác nhận xóa sản phẩm " + book_name))
+            if (!confirm("Xác nhận xóa sản phẩm " + book_name))
                 event.preventDefault()
         }
     </script>

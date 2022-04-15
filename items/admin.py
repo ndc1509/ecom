@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 # Register your models here.
 from django.contrib.auth.admin import UserAdmin
 
@@ -13,7 +12,6 @@ admin.site.register(Category)
 admin.site.register(LaptopBrand)
 admin.site.register(Cart)
 admin.site.register(ProductItem)
-
 
 
 class AccountAdmin(UserAdmin):

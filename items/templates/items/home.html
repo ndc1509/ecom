@@ -1,38 +1,38 @@
-{% extends 'items/index.html'%}
+{% extends 'items/index.html' %}
 {% block addItem %}
-<div class="content container">
-    {% load static %}
-    {% load format %}
-    <div class="container-fluid">
-        <select name="product" id="product">
-            <option value="book">Sách</option>
-            <option value="phone">Điện thoại</option>
-            <option value="laptop">Laptop</option>
-        </select>
-    </div>
-    <div class="container">
-        <table class="table">
-        <thead>
-            <tr>
-                <th>Tên sản phẩm</th>
-                <th>Giá</th>
-                <th>Trạng thái</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in Items %}
+    <div class="content container">
+        {% load static %}
+        {% load format %}
+        <div class="container-fluid">
+            <select name="product" id="product">
+                <option value="book">Sách</option>
+                <option value="phone">Điện thoại</option>
+                <option value="laptop">Laptop</option>
+            </select>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
                 <tr>
-                    <td>{{item.name_book | default:"Không có" | title | bold}}</td>
-                    <td>{{item.price }}</td>
-                    <td>{{item.author}}</td>
-{#                    <td>{{item.create_at}}</td>#}
-                    <td>{{item.create_at | date:"j/n/Y"}}</td>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Trạng thái</th>
                 </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                {% for item in Items %}
+                    <tr>
+                        <td>{{ item.name_book | default:"Không có" | title | bold }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.author }}</td>
+                        {#                    <td>{{item.create_at}}</td>#}
+                        <td>{{ item.create_at | date:"j/n/Y" }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
     </div>
-
-
-</div>
 {% endblock %}

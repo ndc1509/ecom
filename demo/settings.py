@@ -141,4 +141,3 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
     messages.DEBUG: 'secondary'
 }
-

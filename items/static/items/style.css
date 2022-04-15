@@ -1,40 +1,46 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-a{
+
+a {
     text-decoration: none;
-    color:white;
+    color: white;
 }
-body{
+
+body {
     min-height: 100vh;
     display: flex;
-    
-}
-/* header */
-header{
-   background-color: black;
-   width: 15%;
-   min-height: 100vh;
-   display: block;
-   color: white;
-   box-shadow: 10px 8px 20px #aba5a5;
 
-   position: fixed;
-   top: 0;
-   bottom: 0;
 }
-.logo{
+
+/* header */
+header {
+    background-color: black;
+    width: 15%;
+    min-height: 100vh;
+    display: block;
+    color: white;
+    box-shadow: 10px 8px 20px #aba5a5;
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+
+.logo {
     margin: 0 auto;
     text-align: center;
     font-size: 35px;
     padding: 15px;
 }
-ul > li{
+
+ul > li {
     list-style: none;
-} 
-ul.nav{
+}
+
+ul.nav {
     margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
@@ -42,38 +48,44 @@ ul.nav{
     font-size: 1.3rem;
 
 }
-li>a{
+
+li > a {
     text-decoration: none;
     color: white;
     margin-left: 10px;
 }
+
 li ~ li {
-    margin-top: 30px ;
-    padding:20px;
+    margin-top: 30px;
+    padding: 20px;
 }
-li:first-child{
-    color:white ;
+
+li:first-child {
+    color: white;
     text-align: center;
     font-size: 24px;
 }
-.menu__item > a:hover{
+
+.menu__item > a:hover {
     color: rgb(50, 50, 240);
 }
-li:last-child{
+
+li:last-child {
     margin-top: 120px;
 }
 
 /* section */
-section{
+section {
     width: 85%;
     height: auto;
     padding: 8px;
     margin-left: 16.1%;
     padding: 5px;
 }
+
 /* section Add */
 
-section > .item{
+section > .item {
     background-color: white;
     width: 90%;
     margin: auto auto;
@@ -82,51 +94,59 @@ section > .item{
     box-shadow: 8px 11px 24px #aba5a5;
     font-weight: 600;
 }
-form> .title{
+
+form > .title {
     text-align: center;
     font-weight: 700;
     font-size: 2em;
 }
-form > .item-book{
-   padding: 10px;
+
+form > .item-book {
+    padding: 10px;
 }
-.button{
+
+.button {
     width: 200px;
     padding: 10px;
 }
-.button-div{
+
+.button-div {
     padding: 20px;
-    margin-top:10px;
+    margin-top: 10px;
 }
 
 /* section Home */
-.content{ 
+.content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    margin-top:5px;
+    margin-top: 5px;
     padding: 2px;
 }
-.list-book{
+
+.list-book {
     border: 1px solid #d9d9d9;
     border-radius: 4%;
     box-shadow: -7px 3px 22px #bfbbbb;
     padding: 1px;
     margin-right: 5px;
     margin-bottom: 25px;
-    
-   
+
+
 }
-.content__image{
+
+.content__image {
     padding: 3px;
 }
-.content__info{
+
+.content__info {
     border-top: 1px solid #cbc5c5;
     box-shadow: -7px 3px 22px #dfdfdf;
     padding: 5px;
     font-weight: 600;
 }
-.content__img:hover{
+
+.content__img:hover {
     transform: scale(1.1);
 }

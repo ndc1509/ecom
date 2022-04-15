@@ -189,7 +189,7 @@ class Account(AbstractBaseUser):
         return True
 
     def full_name(self):
-        return self.first_name + " " + self.last_name
+        return str(self.first_name + " " + self.last_name)
 
 
 # CART
@@ -242,8 +242,8 @@ class Shipment(models.Model):
         ('Delivered', 'Delivered'),
         ('Returned', 'Returned')
     }
-    shipment_id = models.CharField(max_length=100)
-    shipment_method = models.CharField(max_length=100)
+    # shipment_id = models.CharField(max_length=100)
+    shipment_method = models.CharField(max_length=100, null=True, blank=True)
     address_line_1 = models.CharField(max_length=100)
     address_line_2 = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=50)
@@ -283,5 +283,3 @@ class Order(models.Model):
 
     def full_name(self):
         return self.user.first_name + self.user.last_name
-
-
