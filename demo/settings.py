@@ -131,8 +131,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "cuongnd1509@gmail.com"
-EMAIL_HOST_PASSWORD = 'Moc14032005'
+EMAIL_HOST_USER = 'youremail'
+EMAIL_HOST_PASSWORD = "youremail's password"
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
