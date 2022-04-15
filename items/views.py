@@ -359,7 +359,7 @@ def _get_cart(request, cart_id=None):
         user = request.user
         try:
             db_cart = Cart.objects.get(user=user, is_checked_out=False)
-            print(temp_cart)
+            # print(temp_cart)
             db_items = ProductItem.objects.filter(cart=db_cart, cart__is_checked_out=False).all()
             temp_items = ProductItem.objects.filter(cart=temp_cart, cart__is_checked_out=False).all()
             for temp_item in temp_items:
@@ -371,6 +371,15 @@ def _get_cart(request, cart_id=None):
             db_cart = Cart.objects.get(user=user, is_checked_out=False)
         except Cart.DoesNotExist:
             db_cart = Cart.objects.create(user=user)
+            # db_items = ProductItem.objects.filter(cart=db_cart, cart__is_checked_out=False).all()
+            temp_items = ProductItem.objects.filter(cart=temp_cart, cart__is_checked_out=False).all()
+            for temp_item in temp_items:
+                ProductItem.objects.filter(id=temp_item.id).update(cart=db_cart)
+                # for db_item in db_items:
+                #     if db_item.product.id == temp_item.product.id:
+                #         ProductItem.objects.filter(id=db_item.id).update(quantity=db_item.quantity + temp_item.quantity)
+                #         ProductItem.objects.filter(id=temp_item.id).delete()
+            db_cart = Cart.objects.get(user=user, is_checked_out=False)
         return db_cart
 
 
@@ -418,7 +427,7 @@ def cart(req, total=0, quantity=0, items=None):
         for item in items:
             total += item.product.price * item.quantity
             quantity += item.quantity
-        tax = total * 10/100
+        tax = total * 10 / 100
         grand_total = total + tax
     except ObjectDoesNotExist:
         pass
@@ -426,8 +435,8 @@ def cart(req, total=0, quantity=0, items=None):
         'total': total,
         'quantity': quantity,
         'cart_items': items,
-        'tax': tax, #if "tax" in locals() else "",
-        'grand_total': grand_total # if "tax" in locals() else 0,
+        'tax': tax,  # if "tax" in locals() else "",
+        'grand_total': grand_total  # if "tax" in locals() else 0,
     })
 
 
@@ -444,7 +453,7 @@ def checkout(req, total=0, quantity=0, items=None):
         tax = total * 10 / 100
         grand_total = total + tax
     except ObjectDoesNotExist:
-        pass    # Chỉ bỏ qua
+        pass  # Chỉ bỏ qua
     return render(req, 'store/checkout.html', {
         'total': total,
         'quantity': quantity,
