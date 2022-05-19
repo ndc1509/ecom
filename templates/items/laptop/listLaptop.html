@@ -1,0 +1,60 @@
+{% extends 'items/index.html' %}
+{% block listBook %}
+    <div class="content container">
+        {% load static %}
+        <div class="container">
+            <button class="btn btn-primary"><a href="{% url 'items:addLaptop' %}">Thêm laptop</a></button>
+        </div>
+
+        <div class="container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Thương hiệu</th>
+                    <th>Giá</th>
+                    <th>Trạng thái</th>
+                    <th>CPU</th>
+                    <th>RAM</th>
+                    <th>VGA</th>
+                    <th>Màn hình</th>
+                    <th>Bộ nhớ</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for laptop in Laptops %}
+                    <tr>
+                        <td>{{ laptop.name }}</td>
+                        <td>{{ laptop.brand.name }}</td>
+                        <td>{{ laptop.price }}</td>
+                        {% if laptop.status == 'C' %}
+                            <td style="color: green">Còn hàng</td>
+                        {% elif book.status == 'H' %}
+                            <td style="color: red">Hết hàng</td>
+                        {% else %}
+                            <td style="color: orange">Chờ hàng</td>
+                        {% endif %}
+                        <td>{{ laptop.cpu }}</td>
+                        <td>{{ laptop.ram }}</td>
+                        <td>{{ laptop.vga }}</td>
+                        <td>{{ laptop.screen }}</td>
+                        <td>{{ laptop.storage }}</td>
+                        <td><a class="btn btn-success edit-btn" id="{{ laptop.id }}"
+                               href="{% url 'items:editLaptop' laptop.id %}">Sửa</a>
+                            <a class="btn btn-danger del-btn" id="{{ laptop.id }}"
+                               onclick="confirm_delete('{{ laptop.name }}')"
+                               href="{% url 'items:deleteLaptop' laptop.id %}">Xóa</a></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function confirm_delete(name) {
+            if (!confirm("Xác nhận xóa sản phẩm " + name))
+                event.preventDefault()
+        }
+    </script>
+{% endblock listBook %}

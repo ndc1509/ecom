@@ -1,0 +1,58 @@
+{% extends 'items/index.html' %}
+{% block listBook %}
+    <div class="content container">
+        {% load static %}
+
+        <div class="container">
+            <button class="btn btn-primary"><a href="{% url 'items:addBook' %}">Thêm sách</a></button>
+        </div>
+
+        <div class="container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Trạng thái</th>
+                    <th>Nhà xuất bản</th>
+                    <th>Tác giả</th>
+                    <th>Danh mục</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for book in Books %}
+                    <tr>
+                        <td><img src="{{ book.productimage_set.first.image }}" width="100px" height="100px"/></td>
+                        <td>{{ book.name }}</td>
+                        <td>{{ book.price }}</td>
+                        {% if book.status == 'C' %}
+                            <td style="color: green">Còn hàng</td>
+                        {% elif book.status == 'H' %}
+                            <td style="color: red">Hết hàng</td>
+                        {% else %}
+                            <td style="color: orange">Chờ hàng</td>
+                        {% endif %}
+                        <td>{{ book.publisher }}</td>
+                        <td>{{ book.author.name }}</td>
+                        <td>{{ book.category.name }}</td>
+                        <td><a class="btn btn-success edit-btn" id="{{ book.id }}"
+                               href="{% url 'items:editBook' book.id %}">Sửa</a>
+                            <a class="btn btn-danger del-btn" id="{{ book.id }}"
+                               onclick="confirm_delete('{{ book.name }}')" href="{% url 'items:deleteBook' book.id %}">Xóa</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function confirm_delete(book_name) {
+            if (!confirm("Xác nhận xóa sản phẩm " + book_name))
+                event.preventDefault()
+        }
+    </script>
+{% endblock listBook %}

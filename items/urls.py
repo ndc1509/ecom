@@ -29,42 +29,8 @@ urlpatterns = [
     path('admin/laptop/edit/<int:id>/<int:success>', views.editLaptopSuccess, name='editLaptopSuccess'),
     path('admin/update-laptop', views.updateLaptop, name='updateLaptop'),
 
-    path('error/', views.notFound, name='notFound'),
+    # path('error/', views.notFound, name='notFound'),
     # path('save-item/', views.saveData, name='saveData'),
     # path('show/', views.show, name =  'show')
-    # SHOP
-    path('', views.store, name='store'),
-    path('all-products/', views.store, name='products'),
-    path('category/<slug:category_slug>/', views.store, name='products_by_category'),
-    path('category/<slug:category_slug>/<slug:product_slug>/', views.product_detail, name='product_detail'),
 
-    # CART
-    path('cart/', views.cart, name='cart'),
-    path('add-to-cart/<int:product_id>/', views.add_cart, name='add_cart'),
-    path('remove-cart/<int:product_id>/', views.remove_cart, name='remove_cart'),
-    path('remove-cart-item/<int:product_id>/', views.remove_cart_item, name='remove_cart_item'),
-
-    # CHECKOUT
-    path('checkout/', views.checkout, name='checkout'),
-
-    # SEARCH
-    path('search/', views.search, name='search'),
-
-    # ACCOUNT
-    path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout, name='logout'),
-    path('forgotPassword/', views.forgotPassword, name='forgotPassword'),
-
-    path('dashboard/', views.dashboard, name='dashboard'),
-    # path('', views.dashboard, name='dashboard'),
-
-    path('activate/<uidb64>/<token>', views.activate, name='activate'),
-    path('reset_password_validate/<uidb64>/<token>', views.reset_password_validate, name='reset_password_validate'),
-    path('reset_password/', views.reset_password, name='reset_password'),
-
-    # ORDERS
-    path('place_order/', views.place_order, name='place_order'),
-    path('payments/', views.payments, name='payments'),
-    path('order_complete/', views.order_complete, name='order_complete')
 ]

@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'items.apps.ItemsConfig'
+    'items.apps.ItemsConfig',
+    'account.apps.AuthConfig',
+    'store.apps.StoreConfig'
 ]
 
 MIDDLEWARE = [
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'demo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bookstr',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'admin',
         'HOST': 'localhost',
         'PORT': '3306'
     }
@@ -88,7 +90,7 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-AUTH_USER_MODEL = 'items.Account'
+AUTH_USER_MODEL = 'account.Account'
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -121,8 +123,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/items/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'items/media')
+# STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = ['static']
+MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR/ 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -131,8 +135,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'youremail'
-EMAIL_HOST_PASSWORD = "youremail's password"
+EMAIL_HOST_USER = 'cuongnd1509@gmail.com'
+EMAIL_HOST_PASSWORD = "Moc14032005"
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',

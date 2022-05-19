@@ -2,14 +2,16 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.auth.admin import UserAdmin
 
-from items.models import Book, Smartphone, Laptop, Author, Category, LaptopBrand, Account, ProductItem, Cart
+from account.models import Account
+from items.models import Book, Smartphone, Laptop, Author, Category, Brand
+from store.models import ProductItem, Cart
 
 admin.site.register(Book)
 admin.site.register(Laptop)
 admin.site.register(Smartphone)
 admin.site.register(Author)
 admin.site.register(Category)
-admin.site.register(LaptopBrand)
+admin.site.register(Brand)
 admin.site.register(Cart)
 admin.site.register(ProductItem)
 
