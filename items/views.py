@@ -82,6 +82,7 @@ def saveBook(req):
             name=name,
             category=Category.objects.get(pk=category_id),
             author=Author.objects.get(pk=author_id),
+            stock=100,
             status=status,
             slug=slug,
             price=price,
@@ -220,6 +221,7 @@ def saveLaptop(req):
         brand_id = req.POST['brand_id']
         status = req.POST['status']
         price = req.POST['price']
+        category_id = req.POST['category_id']
         description = req.POST['description']
         slug = req.POST['slug']
         cpu = req.POST['cpu']
@@ -233,12 +235,24 @@ def saveLaptop(req):
             name=name,
             brand=Brand.objects.get(pk=brand_id),
             status=status,
+            stock=100,
+            category_id=category_id,
             slug=slug,
             price=price,
             description=description,
             cpu=cpu, ram=ram, vga=vga, screen=screen, storage=storage, battery=battery, os=os
         )
         new_lap.save()
+        fs = FileSystemStorage()
+        if req.FILES.getlist('image'):
+            for file in req.FILES.getlist('image'):
+                f = fs.save(file.name, file)
+                f_url = fs.url(f)
+                image = ProductImage.objects.create(
+                    image=f_url,
+                    product=new_lap
+                )
+                image.save()
         return redirect(reverse('items:addLaptopSuccess', args=(1,)))
     else:
         return render(req, 'items/error.html')

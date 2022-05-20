@@ -6,7 +6,7 @@
                 alert('Thêm thành công!')
             </script>
         {% endif %}
-        <form action="{% url 'items:saveLaptop' %}" method="post">
+        <form action="{% url 'items:saveLaptop' %}" method="post" enctype="multipart/form-data"s>
             {% csrf_token %}
             <div class="title">
                 <p>Thêm laptop</p>
@@ -26,6 +26,14 @@
             <div>
                 <button class="btn btn-primary ms-2"><a href="{% url 'items:addBrand' %}" target="_blank">Thêm thương
                     hiệu</a></button>
+            </div>
+            <div class="item-book col-auto">
+                <label for="category_id">Danh mục: </label>
+                <select class="form-select" aria-label="Default select example" name="category_id">
+                    {% for c in Categories %}
+                        <option value={{ c.id }}>{{ c.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="item-book col-auto">
@@ -77,9 +85,30 @@
                 <textarea class="form-control" id="exampleFormControlTextarea1" name="description"></textarea>
             </div>
 
+            <div>
+                <label for="image">Ảnh</label>
+                <input id="fileInp" type="file" name="image" accept="image/*" multiple/>
+                <div id="frame">
+
+                </div>
+            </div>
             <div class=" button-div d-flex justify-content-around col-auto">
                 <button class=" button btn btn-primary" type="submit">Submit</button>
             </div>
         </form>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#fileInp').change(function () {
+                $('#frame').html('');
+                for (let i = 0; i < $(this)[0].files.length; i++) {
+                    if (this.files[i]) {
+                        $('#frame').append(
+                            '<img src="' + URL.createObjectURL(this.files[i]) + '" height="200px" width="200px" />'
+                        )
+                    }
+                }
+            })
+        })
+    </script>
 {% endblock %}

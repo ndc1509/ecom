@@ -29,5 +29,8 @@ urlpatterns = [
     # ORDERS
     path('place_order/', views.place_order, name='place_order'),
     path('payments/', views.payments, name='payments'),
-    path('order_complete/', views.order_complete, name='order_complete')
+    path('order_complete/', views.order_complete, name='order_complete'),
+
+    # REVIEW
+    path('submit_review/<int:product_id>/', views.submit_review, name='submit_review'),
 ]

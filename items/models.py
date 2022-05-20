@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 
+from account.models import Account
+
 PRODUCT_STATUS = (
     ('C', 'Còn hàng'),
     ('H', 'Hết hàng'),
@@ -30,7 +32,7 @@ class Category(models.Model):
         return self.name
 
     def get_url(self):
-        return reverse('items:products_by_category', args=[self.slug])
+        return reverse('store:products_by_category', args=[self.slug])
 
 
 class Product(models.Model):
@@ -47,7 +49,7 @@ class Product(models.Model):
         return self.name
 
     def get_url(self):
-        return reverse('items:product_detail', args=[self.category.slug, self.slug])
+        return reverse('store:product_detail', args=[self.category.slug, self.slug])
 
 
 class ProductImage(models.Model):

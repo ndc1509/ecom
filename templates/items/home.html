@@ -21,7 +21,7 @@
                 <tbody>
                 {% for item in Items %}
                     <tr>
-                        <td>{{ item.name_book | default:"Không có" | title | bold }}</td>
+                        <td>{{ item.name_book | default:"Không có" | title  }}</td>
                         <td>{{ item.price }}</td>
                         <td>{{ item.author }}</td>
                         {#                    <td>{{item.create_at}}</td>#}

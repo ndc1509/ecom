@@ -10,6 +10,7 @@
             <table class="table">
                 <thead>
                 <tr>
+                    <th>Ảnh</th>
                     <th>Tên sản phẩm</th>
                     <th>Thương hiệu</th>
                     <th>Giá</th>
@@ -24,6 +25,7 @@
                 <tbody>
                 {% for laptop in Laptops %}
                     <tr>
+                        <td><img src="{{ laptop.productimage_set.first.image }}" width="100px" height="100px"/></td>
                         <td>{{ laptop.name }}</td>
                         <td>{{ laptop.brand.name }}</td>
                         <td>{{ laptop.price }}</td>

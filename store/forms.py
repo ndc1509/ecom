@@ -1,6 +1,6 @@
 from django import forms
 
-from store.models import Shipment
+from store.models import Shipment, ReviewRating
 
 
 class ShipmentForm(forms.ModelForm):
@@ -12,3 +12,9 @@ class ShipmentForm(forms.ModelForm):
 #     class Meta:
 #         model = Order
 #         fields = ['order_note']
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = ReviewRating
+        fields = ['subject', 'review', 'rating']

@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
@@ -11,8 +12,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 
 from items.models import Product, Category
-from store.forms import ShipmentForm
-from store.models import Payment, Shipment, Order, ProductItem, Cart
+from store.forms import ShipmentForm, ReviewForm
+from store.models import Payment, Shipment, Order, ProductItem, Cart, ReviewRating
 
 
 # SHOP MAIN PAGE
@@ -44,8 +45,15 @@ def store(req, category_slug=None):
 
 def product_detail(req, category_slug, product_slug=None):
     product = Product.objects.get(category__slug=category_slug, slug=product_slug)
+    reviews = ReviewRating.objects.filter(product_id=product.id, status=True)
+    try:
+        orderproduct = ProductItem.objects.filter(user=req.user, product_id=product.id).exists()
+    except Exception:
+        orderproduct = None
     return render(req, 'store/product_detail.html', {
-        'single_product': product
+        'single_product': product,
+        'reviews': reviews,
+        'orderproduct': orderproduct
     })
 
 
@@ -98,10 +106,10 @@ def add_cart(req, product_id):
     cart = _get_cart(req)
     is_existed_item = cart.productitem_set.filter(product=product, is_active=True).exists()
     if is_existed_item:
-        item = ProductItem.objects.get(cart=cart, product=product, is_active=True)
+        item = ProductItem.objects.get(user=user, cart=cart, product=product, is_active=True)
         item.quantity += 1
     else:
-        item = ProductItem.objects.create(cart=cart, product=product, quantity=1)
+        item = ProductItem.objects.create(user=user, cart=cart, product=product, quantity=1)
     item.save()
     return redirect('store:cart')
 
@@ -149,7 +157,7 @@ def cart(req, total=0, quantity=0, items=None):
     })
 
 
-@login_required(login_url='login')
+@login_required(login_url='account:login')
 def checkout(req, total=0, quantity=0, items=None):
     global grand_total, tax
     try:
@@ -324,3 +332,27 @@ def order_complete(request):
         })
     except Exception:
         return redirect('home')
+
+
+def submit_review(request, product_id):
+    url = request.META.get('HTTP_REFERER')
+    if request.method == "POST":
+        try:
+            review = ReviewRating.objects.get(user__id=request.user.id, product__id=product_id)
+            form = ReviewForm(request.POST, instance=review)
+            form.save()
+            messages.success(request, "Thank you! Your review has been updated.")
+            return redirect(url)
+        except Exception:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                data = ReviewRating()
+                data.subject = form.cleaned_data['subject']
+                data.rating = form.cleaned_data['rating']
+                data.review = form.cleaned_data['review']
+                data.ip = request.META.get('REMOTE_ADDR')
+                data.product_id = product_id
+                data.user_id = request.user.id
+                data.save()
+                messages.success(request, "Thank you! Your review has been submitted.")
+                return redirect(url)
